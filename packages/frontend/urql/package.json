@@ -1,0 +1,39 @@
+{
+  "name": "@edibl/urql",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nuxt-module-build"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@nuxt/kit": "4.2.2",
+    "@urql/core": "6.0.1",
+    "@urql/devtools": "2.0.3",
+    "@urql/exchange-auth": "3.0.0",
+    "@urql/exchange-graphcache": "8.1.0",
+    "@urql/vue": "2.0.0",
+    "cross-fetch": "4.1.0",
+    "graphql": "16.12.0",
+    "graphql-ws": "6.0.6",
+    "js-cookie": "3.0.5"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "^1.0.2",
+    "@types/js-cookie": "3.0.6"
+  },
+  "peerDependencies": {
+    "vue": "3"
+  }
+}

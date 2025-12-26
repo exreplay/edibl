@@ -1,0 +1,14 @@
+{
+  "name": "edibl",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tmuxinator start -p edibl.yml"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "turbo": "2.5.8"
+  }
+}

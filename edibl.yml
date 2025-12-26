@@ -1,0 +1,10 @@
+name: edibl
+root: ./
+
+windows:
+  - editor: nvim
+  - app:
+      layout: even-vertical
+      panes:
+        - cd packages/frontend/app && pnpm dev
+        - cd packages/codegen && pnpm gen --watch

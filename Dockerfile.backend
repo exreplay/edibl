@@ -1,0 +1,15 @@
+FROM node:16-alpine
+
+COPY ./packages/backend/graphql/dist /usr/src/app/packages/backend/graphql/dist
+
+COPY ./packages/backend/auth/dist /usr/src/app/packages/backend/auth/dist
+COPY ./packages/backend/auth/package.json /usr/src/app/packages/backend/auth/package.json
+
+COPY ./node_modules /usr/src/app/node_modules
+
+ENV GRAPHQL_API_PORT=4000
+ENV NODE_ENV=production
+EXPOSE $GRAPHQL_API_PORT
+WORKDIR /usr/src/app/packages/backend/graphql
+
+CMD ["node", "dist/index.js"]

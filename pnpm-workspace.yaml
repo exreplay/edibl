@@ -1,0 +1,13 @@
+packages:
+  - packages/codegen
+  - packages/backend/**
+  - packages/providers/**
+  - packages/libs/**
+  - packages/frontend/**
+
+onlyBuiltDependencies:
+  - '@intlify/vue-i18n-bridge'
+  - '@intlify/vue-router-bridge'
+  - esbuild
+  - sharp
+  - vue-demi

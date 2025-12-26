@@ -1,0 +1,15 @@
+{
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "**/*.d.ts",
+    "**/*.tsx",
+    "**/*.vue",
+    ".eslintrc.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
+

@@ -1,0 +1,88 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --shadow-lg-top: 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 -4px 6px -2px rgba(0, 0, 0, 0.05);
+  --spacing-50vh: 50vh;
+  --spacing-safe-area-top-nav: calc(env(safe-area-inset-top) + 4rem);
+  --spacing-safe-area-top: env(safe-area-inset-top);
+  --spacing-safe-area-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  --spacing-safe-area-left: max(1rem, env(safe-area-inset-left));
+  --spacing-safe-area-right: max(1rem, env(safe-area-inset-right));
+  --breakpoint-standalone: (display-mode: standalone);
+}
+
+@custom-variant standalone {
+  @media (display-mode: standalone) {
+    @slot
+  }
+}
+
+@font-face {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-style: normal;
+  font-weight: 400;
+  src: url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff2"), url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff");
+  unicode-range: U + e001-e04c, U + 00AE, U + e937
+}
+
+@font-face {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-style: italic;
+  font-weight: 400;
+  src: url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff2"), url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff");
+  unicode-range: U + e001-e04c, U + 00AE, U + e937
+}
+
+@font-face {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-style: normal;
+  font-weight: 500;
+  src: url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff2"), url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff");
+  unicode-range: U + e001-e04c, U + 00AE, U + e937
+}
+
+@font-face {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-style: normal;
+  font-weight: 700;
+  src: url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff2"), url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff");
+  unicode-range: U + e001-e04c, U + 00AE, U + e937
+}
+
+@font-face {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-style: normal;
+  font-weight: 400;
+  src: url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff2"), url(~/assets/fonts/Culinary-Iconfont-Standard.woff2) format("woff");
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-pink-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-pink-500;
+}
+
+:root {
+  scrollbar-color: theme('backgroundColor.pink.500') theme('backgroundColor.pink.50');
+  scrollbar-width: 10px;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.prose {
+  max-width: none
+}
