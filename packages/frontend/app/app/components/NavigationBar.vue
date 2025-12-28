@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import {
-  BookOpenIcon,
-  ShoppingBagIcon,
-  BookmarkIcon
-} from '@heroicons/vue/24/solid';
-
 const route = useRoute();
 const hide = computed(() => {
   return route.meta.hideNavigationBar;
@@ -14,17 +8,17 @@ const navigationBarRoutes = [
   {
     path: '/recipes',
     title: 'Rezepte',
-    icon: BookOpenIcon
+    icon: 'pi-book'
   },
   {
     path: '/categories',
     title: 'Kategorien',
-    icon: BookmarkIcon
+    icon: 'pi-bookmark'
   },
   {
     path: '/groceries',
     title: 'Einkaufen',
-    icon: ShoppingBagIcon
+    icon: 'pi-shopping-cart'
   }
 ];
 </script>
@@ -53,7 +47,7 @@ const navigationBarRoutes = [
             class="flex flex-col items-center border-t-2 px-4 py-2 text-xs border-gray-200 text-gray-400"
             active-class="border-pink-500 text-pink-500"
           >
-            <component :is="navBarRoute.icon" class="h-6 w-6" />
+            <i :class="['text-base mt-1 mb-2 pi', navBarRoute.icon]" />
             {{ navBarRoute.title }}
           </NuxtLinkLocale>
         </li>

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { PlusIcon, TrashIcon, PencilIcon } from '@heroicons/vue/24/solid';
 import { graphql, useFragment, type FragmentType } from '~/gql';
 import { CategoryFieldsFragment } from './[categoryId]/index.vue';
 
@@ -52,9 +51,11 @@ function removeCategory(category: any) {
   <div class="px-4">
     <div class="container mx-auto pt-safe-area-top-nav">
       <Portal to="titleBarRight">
-        <Button color="pink" small narrower @click="addCategory">
-          <PlusIcon class="h-4 w-4 drop-shadow-md" />
-        </Button>
+        <CustomButton
+          size="small-narrow"
+          icon="pi pi-plus"
+          @click="addCategory"
+        />
       </Portal>
       <h2 ref="recipesListHeadline" class="text-3xl font-bold text-gray-900">
         Kategorien
@@ -76,7 +77,7 @@ function removeCategory(category: any) {
               @click="updateCategory(category)"
             >
               <IconBg class="bg-gray-100 group-hover:shadow-md">
-                <PencilIcon class="w-h4 h-4 text-gray-600" />
+                <i class="pi pi-pencil text-gray-600" />
               </IconBg>
             </div>
             <div
@@ -84,7 +85,7 @@ function removeCategory(category: any) {
               @click="removeCategory(category)"
             >
               <IconBg class="bg-red-100 group-hover:shadow-md">
-                <TrashIcon class="w-h4 h-4 text-red-600" />
+                <i class="pi pi-trash text-red-600" />
               </IconBg>
             </div>
           </template>

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ExclamationCircleIcon } from '@heroicons/vue/24/solid';
 import { graphql, useFragment, type FragmentType } from '~/gql';
 import { CategoryFieldsFragment } from '~/pages/categories/index/[categoryId]/index.vue';
 
@@ -42,38 +41,35 @@ async function remove() {
 </script>
 
 <template>
-  <Modal v-model="inputValue">
-    <template #icon>
-      <IconBg
-        dimensions="h-12 w-12 sm:h-10 sm:w-10"
-        class="mx-auto bg-red-100 sm:mx-0"
-      >
-        <ExclamationCircleIcon class="h-6 w-6 text-red-600" />
-      </IconBg>
+  <Dialog v-model:visible="inputValue" modal>
+    <template #header>
+      <div class="flex items-center">
+        <i class="pi pi-exclamation-triangle text-red-600" />
+        <h3 class="ml-3 text-lg leading-6 font-medium text-gray-900">
+          Kategorie "{{ category?.name }}" löschen
+        </h3>
+      </div>
     </template>
-
-    <template #title>Kategorie "{{ category?.name }}" löschen</template>
 
     Wollen Sie die Kategorie wirklich löschen?
 
-    <template #actions>
-      <Button
+    <template #footer>
+      <CustomButton
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
         :disabled="fetching"
         :loading="fetching"
-        color="red"
         @click="remove"
       >
         Löschen
-      </Button>
-      <Button
+      </CustomButton>
+      <CustomButton
+        intent="secondary"
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
-        color="gray"
         :disabled="fetching"
         @click="inputValue = false"
       >
         Abbrechen
-      </Button>
+      </CustomButton>
     </template>
-  </Modal>
+  </Dialog>
 </template>

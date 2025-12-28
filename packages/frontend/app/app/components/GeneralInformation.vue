@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ChartBarIcon, ClockIcon, UserIcon } from '@heroicons/vue/24/outline';
 import { useFragment, type FragmentType } from '~/gql';
 import { RecipeDetailFieldsFragment } from './Recipe/Detail.vue';
 import { Difficulty } from '~/gql/graphql';
@@ -37,7 +36,7 @@ const difficulty = computed(() => {
   <div class="-mx-4 mt-3 flex flex-wrap text-left text-sm">
     <div class="flex w-1/2 items-center px-4 py-2 sm:w-1/4 md:w-1/2">
       <IconBg class="mr-2 bg-pink-100">
-        <ChartBarIcon class="h-4 w-4 text-pink-600" />
+        <i class="pi pi-chart-pie text-pink-600" />
       </IconBg>
       <div class="flex flex-col">
         <small class="text-gray-500">Schwierigkeit</small>
@@ -48,7 +47,7 @@ const difficulty = computed(() => {
     </div>
     <div class="flex w-1/2 items-center px-4 py-2 sm:w-1/4 md:w-1/2">
       <IconBg class="mr-2 bg-pink-100">
-        <ClockIcon class="h-4 w-4 text-pink-600" />
+        <i class="pi pi-clock text-pink-600" />
       </IconBg>
       <div class="flex flex-col">
         <small class="text-gray-500">Arbeitszeit</small>
@@ -57,7 +56,7 @@ const difficulty = computed(() => {
     </div>
     <div class="flex w-1/2 items-center px-4 py-2 sm:w-1/4 md:w-1/2">
       <IconBg class="mr-2 bg-pink-100">
-        <ClockIcon class="h-4 w-4 text-pink-600" />
+        <i class="pi pi-clock text-pink-600" />
       </IconBg>
       <div class="flex flex-col">
         <small class="text-gray-500">Gesamtzeit</small>
@@ -66,7 +65,7 @@ const difficulty = computed(() => {
     </div>
     <div class="flex w-1/2 items-center px-4 py-2 sm:w-1/4 md:w-1/2">
       <IconBg class="mr-2 bg-pink-100">
-        <UserIcon class="h-4 w-4 text-pink-600" />
+        <i class="pi pi-user text-pink-600" />
       </IconBg>
       <div class="flex flex-col">
         <small class="text-gray-500">Portionen</small>

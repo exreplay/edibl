@@ -1,28 +1,4 @@
-<script lang="ts">
-export const ShoppingListFieldsFragment = graphql(/* GraphQL */ `
-  fragment ShoppingListFields on ShoppingList {
-    id
-    count
-    shoppingListIngredients {
-      id
-      ingredient {
-        ...RecipeIngredientsFields
-      }
-    }
-    recipe {
-      id
-      title
-      assets {
-        id
-        image
-      }
-    }
-  }
-`);
-</script>
-
 <script lang="ts" setup>
-import { MinusIcon, PlusIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import { graphql, useFragment, type FragmentType } from '~/gql';
 import { RecipeIngredientsFieldsFragment } from './RecipeIngredientGroups/RecipeIngredient.vue';
 
@@ -103,6 +79,29 @@ const increment = async () => {
 };
 </script>
 
+<script lang="ts">
+export const ShoppingListFieldsFragment = graphql(/* GraphQL */ `
+  fragment ShoppingListFields on ShoppingList {
+    id
+    count
+    shoppingListIngredients {
+      id
+      ingredient {
+        ...RecipeIngredientsFields
+      }
+    }
+    recipe {
+      id
+      title
+      assets {
+        id
+        image
+      }
+    }
+  }
+`);
+</script>
+
 <template>
   <VueSwipeOut
     class="my-4 overflow-hidden rounded-xl shadow-md transition-colors duration-150 hover:shadow-lg"
@@ -122,27 +121,25 @@ const increment = async () => {
           </h4>
         </div>
         <div class="mt-2 flex">
-          <Button
-            small
+          <CustomButton
+            size="small"
+            icon="pi pi-minus"
             class="mr-1"
             :disabled="
               decrementShoppingListRecipe.fetching.value ||
               incrementShoppingListRecipe.fetching.value
             "
             @click="decrement"
-          >
-            <MinusIcon class="h-4 w-4" />
-          </Button>
-          <Button
-            small
+          />
+          <CustomButton
+            size="small"
+            icon="pi pi-plus"
             :disabled="
               decrementShoppingListRecipe.fetching.value ||
               incrementShoppingListRecipe.fetching.value
             "
             @click="increment"
-          >
-            <PlusIcon class="h-4 w-4" />
-          </Button>
+          />
         </div>
       </div>
     </div>
@@ -154,7 +151,7 @@ const increment = async () => {
         class="swipeout-action flex items-center justify-center bg-gray-50 p-6"
       >
         <IconBg class="bg-red-100" @click="remove">
-          <TrashIcon class="w-h4 h-4 text-red-600" />
+          <i class="pi pi-trash text-red-600" />
         </IconBg>
       </div>
     </template>

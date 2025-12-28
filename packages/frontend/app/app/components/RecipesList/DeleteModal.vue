@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 import { RecipeFragment } from './Item.vue';
 import { graphql, useFragment, type FragmentType } from '~/gql';
 
@@ -23,14 +22,14 @@ const { executeMutation } = useMutation(
   `)
 );
 
-const recipeObj = useFragment(RecipeFragment, props.recipe);
+const recipe = useFragment(RecipeFragment, props.recipe);
 
 const remove = async () => {
   isDeleting.value = true;
 
   try {
     await executeMutation({
-      id: recipeObj.id
+      id: recipe.id
     });
 
     inputValue.value = false;
@@ -41,22 +40,20 @@ const remove = async () => {
 </script>
 
 <template>
-  <Modal v-model="inputValue">
-    <template #icon>
-      <IconBg
-        dimensions="h-12 w-12 sm:h-10 sm:w-10"
-        class="mx-auto bg-red-100 sm:mx-0"
-      >
-        <ExclamationTriangleIcon class="h-6 w-6 text-red-600" />
-      </IconBg>
+  <Dialog v-model:visible="inputValue" modal>
+    <template #header>
+      <div class="flex items-center">
+        <i class="pi pi-exclamation-triangle text-red-600" />
+        <h3 class="ml-3 text-lg leading-6 font-medium text-gray-900">
+          Rezept "{{ recipe.title }}" löschen
+        </h3>
+      </div>
     </template>
-
-    <template #title>Rezept "{{ recipeObj.title }}" löschen</template>
 
     Wollen Sie das Rezept wirklich löschen?
 
-    <template #actions>
-      <Button
+    <template #footer>
+      <CustomButton
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
         :disabled="isDeleting"
         :loading="isDeleting"
@@ -64,15 +61,15 @@ const remove = async () => {
         @click="remove"
       >
         Löschen
-      </Button>
-      <Button
+      </CustomButton>
+      <CustomButton
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
         color="gray"
         :disabled="isDeleting"
         @click="inputValue = false"
       >
         Abbrechen
-      </Button>
+      </CustomButton>
     </template>
-  </Modal>
+  </Dialog>
 </template>

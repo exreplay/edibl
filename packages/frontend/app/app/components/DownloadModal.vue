@@ -1,12 +1,4 @@
 <script lang="ts" setup>
-import {
-  Listbox,
-  ListboxLabel,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption
-} from '@headlessui/vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 import { graphql, useFragment } from '~/gql';
 import { Provider } from '~/gql/graphql';
 import { RecipeFragment } from './RecipesList/Item.vue';
@@ -19,7 +11,13 @@ const emits = defineEmits<(e: 'update:modelValue') => void>();
 const inputValue = useVModel(props, 'modelValue', emits);
 const url = ref('');
 const downloading = ref(false);
-const selectedProvider = ref(Provider.Cookidoo);
+const selectedProvider = ref();
+
+const providers = ref([
+  {
+    name: Provider.Cookidoo
+  }
+]);
 
 const { executeMutation } = useMutation(
   graphql(/* GraphQL */ `
@@ -41,6 +39,11 @@ const download = async () => {
       provider: selectedProvider.value
     });
 
+    if (response.error) {
+      console.error(response.error);
+      return;
+    }
+
     inputValue.value = false;
     url.value = '';
 
@@ -59,97 +62,76 @@ const download = async () => {
 </script>
 
 <template>
-  <Modal v-model="inputValue">
-    <template #title>Rezept herunterladen</template>
-    <div class="mb-4">
-      <label for="price" class="block text-sm font-medium text-gray-700">
-        URL
-      </label>
+  <Dialog v-model:visible="inputValue" modal>
+    <template #header>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Rezept herunterladen
+      </h3>
+    </template>
 
-      <div class="relative mt-1 rounded-md shadow-sm">
-        <TextField v-model="url" :disabled="downloading" />
-      </div>
+    <div class="flex flex-col gap-4">
+      <TextField v-model="url" placeholder="URL" :disabled="downloading" />
 
-      <Listbox v-model="selectedProvider" as="div" class="mt-4">
-        <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900">
-          Provider
-        </ListboxLabel>
-
-        <div class="relative mt-2">
-          <ListboxButton
-            class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-          >
-            <span class="flex items-center">
-              <ProviderIcons :provider="Provider.Cookidoo" class="mr-3 h-5" />
-              {{ Provider.Cookidoo }}
-            </span>
-            <span
-              class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2"
-            >
-              <ChevronUpDownIcon
-                class="h-5 w-5 text-gray-400"
-                aria-hidden="true"
+      <FloatLabel class="w-full">
+        <label for="provider">Provider</label>
+        <Select
+          v-model="selectedProvider"
+          input_id="provider"
+          :options="providers"
+          :pt="{
+            root: {
+              class:
+                'flex items-center relative w-full cursor-default rounded-md bg-white py-1.5 px-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6'
+            },
+            dropdown: {
+              class: 'ml-auto'
+            },
+            overlay: {
+              class:
+                'mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm'
+            }
+          }"
+        >
+          <template #value="slotProps">
+            <div v-if="slotProps.value" class="flex items-center">
+              <ProviderIcons
+                :provider="slotProps.value.name"
+                class="mr-3 h-5"
               />
-            </span>
-          </ListboxButton>
+              {{ slotProps.value.name }}
+            </div>
+          </template>
 
-          <transition
-            leave-active-class="transition ease-in duration-100"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-          >
-            <ListboxOptions
-              class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          <template #option="slotProps">
+            <div
+              :class="[
+                slotProps.selected ? 'bg-pink-100' : '',
+                'flex items-center relative cursor-default select-none py-2 pl-3 pr-9'
+              ]"
             >
-              <ListboxOption
-                v-for="provider in Object.values(Provider)"
-                :key="provider"
-                v-slot="{ active, selected }"
-                as="template"
-                :value="provider"
-              >
-                <li
-                  :class="[
-                    active ? 'bg-pink-100 text-white' : 'text-gray-900',
-                    'relative cursor-default select-none py-2 pl-3 pr-9'
-                  ]"
-                >
-                  <div class="flex items-center">
-                    <ProviderIcons
-                      :provider="Provider.Cookidoo"
-                      class="mr-3 h-5"
-                    />
-                    {{ Provider.Cookidoo }}
-                  </div>
+              <ProviderIcons
+                :provider="slotProps.option.name"
+                class="mr-3 h-5"
+              />
+              {{ slotProps.option.name }}
+            </div>
+          </template>
 
-                  <span
-                    v-if="selected"
-                    :class="[
-                      active ? 'text-white' : 'text-pink-500',
-                      'absolute inset-y-0 right-0 flex items-center pr-4'
-                    ]"
-                  >
-                    <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                  </span>
-                </li>
-              </ListboxOption>
-            </ListboxOptions>
-          </transition>
-        </div>
-      </Listbox>
+          <template #dropdownicon>
+            <i class="pi pi-chevron-down text-gray-400" />
+          </template>
+        </Select>
+      </FloatLabel>
     </div>
 
-    <template #actions>
-      <Button
+    <template #footer>
+      <CustomButton
         :disabled="downloading"
         :loading="downloading"
-        color="pink"
+        :label="downloading ? 'Downloading' : 'Download'"
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
         @click="download"
-      >
-        <template v-if="downloading">Downloading</template>
-        <template v-else>Download</template>
-      </Button>
+      />
     </template>
-  </Modal>
+  </Dialog>
 </template>

@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
-
 const root = ref<HTMLDivElement | null>(null);
 const route = useRoute();
 const showTitleBarBg = ref(false);
@@ -64,8 +62,8 @@ onMounted(() => {
               :to="titleBarStore.back"
               class="relative z-10 flex items-center overflow-hidden"
             >
-              <ChevronLeftIcon
-                class="h-6 w-6 shrink-0 text-pink-500 drop-shadow-md"
+              <i
+                class="mr-1 shrink-0 text-pink-500 drop-shadow-md pi pi-chevron-left"
               />
               <transition
                 mode="out-in"

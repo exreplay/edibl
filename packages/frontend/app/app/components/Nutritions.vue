@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { MinusIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import { useFragment, type FragmentType } from '~/gql';
 import { RecipeDetailFieldsFragment } from './Recipe/Detail.vue';
 
@@ -9,14 +8,13 @@ const props = defineProps<{
 const recipe = useFragment(RecipeDetailFieldsFragment, props.recipe);
 
 const currentServingSize = ref(1);
-const { t } = useI18n();
 
 const servingSizeQuantity = computed(() => {
   return recipe?.servingSize?.quantity.value || 0;
 });
 
 const recipeNutritions = computed(() => {
-  return recipe.nutritionGroups?.[0].nutritions || [];
+  return recipe.nutritionGroups?.[0]?.nutritions || [];
 });
 
 const incrementServingSize = () => {
@@ -37,12 +35,19 @@ const decrementServingSize = () => {
           pro {{ currentServingSize }}
           <Unit :unit="recipe.servingSize.unit" />
         </span>
-        <Button small class="mr-1" @click="decrementServingSize">
-          <MinusIcon class="h-4 w-4" />
-        </Button>
-        <Button small @click="incrementServingSize">
-          <PlusIcon class="h-4 w-4" />
-        </Button>
+        <CustomButton
+          size="small"
+          class="mr-1"
+          icon="pi pi-minus"
+          @click="decrementServingSize"
+        >
+        </CustomButton>
+        <CustomButton
+          size="small"
+          icon="pi pi-plus"
+          @click="incrementServingSize"
+        >
+        </CustomButton>
       </div>
     </small>
     <div class="flex flex-wrap justify-around">

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ClockIcon, UserIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import { graphql, useFragment, type FragmentType } from '~/gql';
 import type { RouteParams } from 'vue-router';
 
@@ -79,12 +78,12 @@ export const RecipeFragment = graphql(/* GraphQL */ `
             <h4>{{ recipeObj.title }}</h4>
 
             <span class="mb-1 flex items-center text-sm text-gray-500">
-              <ClockIcon class="mr-2 h-4 w-4 text-pink-400" />
+              <i class="mr-2 text-pink-400 pi pi-clock" />
               <ConvertedTime :time="totalTime" />
             </span>
 
             <span class="flex items-center text-sm text-gray-500">
-              <UserIcon class="mr-2 h-4 w-4 text-pink-400" />
+              <i class="mr-2 text-pink-400 pi pi-user" />
               {{ recipeObj.servingSize.quantity.value }}
               <span>&nbsp;</span>
               <Unit :unit="recipeObj.servingSize.unit" />
@@ -104,7 +103,7 @@ export const RecipeFragment = graphql(/* GraphQL */ `
           @click.prevent="$emit('delete', recipe)"
         >
           <IconBg class="bg-red-100 group-hover:shadow-md">
-            <TrashIcon class="w-h4 h-4 text-red-600" />
+            <i class="w-h4 h-4 text-red-600 pi pi-trash" />
           </IconBg>
         </div>
       </template>
