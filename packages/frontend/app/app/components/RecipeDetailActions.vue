@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import {
-  ViewColumnsIcon,
-  CalendarIcon,
-  BookmarkIcon
-} from '@heroicons/vue/24/outline';
 import AddRecipeToCategory from './AddRecipeToCategory.vue';
+import type { FragmentType } from '~/gql';
+import type { RecipeDetailFieldsFragment } from './Recipe/Detail.vue';
 
 // const { executeMutation } = useAddRecipeToShoppingListMutation();
 
-const route = useRoute();
 const showAddRecipeToCategoryModal = ref(false);
 
 const props = defineProps<{
   modelValue: boolean;
-  recipe: any;
+  recipe: FragmentType<typeof RecipeDetailFieldsFragment>;
 }>();
 const emits = defineEmits<(e: 'update:modelValue') => void>();
 
@@ -39,19 +35,19 @@ const addToShoppingList = async () => {
       @click="showAddRecipeToCategoryModal = true"
     >
       <template #prepend>
-        <BookmarkIcon class="h-6 w-6" />
+        <i class="pi pi-bookmark"></i>
       </template>
       Zur Kategorie hinzufügen
     </ActionSheetItem>
     <ActionSheetItem icon="ViewList" @click="addToShoppingList">
       <template #prepend>
-        <ViewColumnsIcon class="h-6 w-6" />
+        <i class="pi pi-shopping-cart"></i>
       </template>
       Auf die Einkaufsliste
     </ActionSheetItem>
     <ActionSheetItem icon="Calendar">
       <template #prepend>
-        <CalendarIcon class="h-6 w-6" />
+        <i class="pi pi-calendar"></i>
       </template>
       Zur Wochenplanung hinzufügen
     </ActionSheetItem>

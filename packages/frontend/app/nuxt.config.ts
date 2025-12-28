@@ -5,13 +5,6 @@ export default defineNuxtConfig({
     typedPages: true
   },
 
-  nitro: {
-    compressPublicAssets: true,
-    externals: {
-      inline: ['@headlessui/vue', '@heroicons/vue']
-    }
-  },
-
   typescript: {
     strict: true
   },
@@ -22,6 +15,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@kevinmarrec/nuxt-pwa',
+    '@primevue/nuxt-module',
     '@edibl/urql',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
@@ -29,6 +23,15 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image'
   ],
+
+  primevue: {
+    options: {
+      unstyled: true
+    },
+    importPT: {
+      from: '~/passthrough/config.ts'
+    }
+  },
 
   imports: {
     presets: [
@@ -40,6 +43,7 @@ export default defineNuxtConfig({
   },
 
   css: [
+    'primeicons/primeicons.css',
     './app/assets/css/main.css',
     'vue-swipe-actions/dist/vue-swipe-actions.css'
   ],

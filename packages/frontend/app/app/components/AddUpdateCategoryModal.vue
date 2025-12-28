@@ -3,16 +3,14 @@ import { graphql, useFragment, type FragmentType } from '~/gql';
 import { CategoryFieldsFragment } from '~/pages/categories/index/[categoryId]/index.vue';
 
 const props = defineProps<{
-  modelValue: boolean;
   category: FragmentType<typeof CategoryFieldsFragment> | null;
 }>();
 const emits = defineEmits<{
   (e: 'done', categories: FragmentType<typeof CategoryFieldsFragment>[]): void;
   (e: 'close'): void;
-  (e: 'update:modelValue'): void;
 }>();
+const inputValue = defineModel<boolean>({ required: true });
 
-const inputValue = useVModel(props, 'modelValue', emits);
 const category = useFragment(CategoryFieldsFragment, props.category);
 const name = ref('');
 
@@ -77,27 +75,32 @@ async function updateCategory() {
 </script>
 
 <template>
-  <Modal v-model="inputValue">
-    <template v-if="isEdit" #title>
-      Kategorie '{{ category?.name }}'' bearbeiten
+  <Dialog v-model:visible="inputValue" modal>
+    <template #header>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <template v-if="isEdit">
+          Kategorie '{{ category?.name }}'' bearbeiten
+        </template>
+        <template v-else> Kategorie erstellen </template>
+      </h3>
     </template>
-    <template v-else #title> Kategorie erstellen </template>
+
     <TextField v-model="name" />
-    <template #actions>
-      <Button
+
+    <template #footer>
+      <CustomButton
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
-        color="pink"
         @click="isEdit ? updateCategory() : addCategory()"
       >
         Speichern
-      </Button>
-      <Button
+      </CustomButton>
+      <CustomButton
+        intent="secondary"
         class="mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto"
-        color="gray"
         @click="inputValue = false"
       >
         Abbrechen
-      </Button>
+      </CustomButton>
     </template>
-  </Modal>
+  </Dialog>
 </template>

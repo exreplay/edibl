@@ -1,68 +1,38 @@
 <script lang="ts" setup>
-import {
-  TransitionRoot,
-  TransitionChild,
-  Dialog,
-  DialogPanel
-} from '@headlessui/vue';
-
-const props = defineProps<{
-  modelValue?: boolean;
-}>();
-const emits = defineEmits<{
-  (e: 'update:modelValue'): void;
-}>();
-const inputValue = useVModel(props, 'modelValue', emits);
-const modalStore = useModalStore();
-
-function closeModal() {
-  inputValue.value = false;
-}
+const visible = defineModel<boolean>();
 </script>
 
 <template>
-  <TransitionRoot :show="inputValue" as="template">
-    <Dialog as="div" class="relative z-50" @close="closeModal">
-      <TransitionChild
-        as="template"
-        enter="transition-opacity duration-300"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="transition-opacity duration-300"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
-        @before-enter="modalStore.actionSheetOpen = true"
-        @after-leave="modalStore.actionSheetOpen = false"
-      >
-        <div
-          class="fixed bottom-0 left-0 w-screen h-full z-40 bg-black/50"
-        ></div>
-      </TransitionChild>
+  <Dialog
+    v-model:visible="visible"
+    :closable="false"
+    :show-header="false"
+    position="bottom"
+    :pt="{
+      transition: {
+        enterActiveClass: 'transition-transform duration-300',
+        enterFromClass: 'translate-y-full',
+        enterToClass: 'translate-y-0',
+        leaveActiveClass: 'transition-transform duration-300',
+        leaveFromClass: 'translate-y-0',
+        leaveToClass: 'translate-y-full'
+      },
+      root: {
+        class: 'bg-white rounded-t-lg'
+      },
+      content: {
+        class: 'px-4 pt-4'
+      }
+    }"
+  >
+    <div class="max-w-md mx-auto">
+      <ul>
+        <slot />
+      </ul>
+    </div>
 
-      <TransitionChild
-        as="template"
-        enter="transition-transform duration-300"
-        enter-from="translate-y-full"
-        enter-to="translate-y-0"
-        leave="transition-transform duration-300"
-        leave-from="translate-y-0"
-        leave-to="translate-y-full"
-      >
-        <DialogPanel class="fixed bottom-0 left-0 w-full z-40">
-          <div
-            class="rounded-t-lg bg-white py-5 max-w-md mx-auto pb-safe-area-bottom"
-          >
-            <ul class="mb-4">
-              <slot />
-            </ul>
-            <div class="px-5">
-              <Button class="w-full" @click="inputValue = false">
-                Abbrechen
-              </Button>
-            </div>
-          </div>
-        </DialogPanel>
-      </TransitionChild>
-    </Dialog>
-  </TransitionRoot>
+    <template #footer>
+      <CustomButton class="w-full" label="Abbrechen" @click="visible = false" />
+    </template>
+  </Dialog>
 </template>
